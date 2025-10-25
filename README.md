@@ -28,5 +28,5 @@ Network tracking is essential for understanding and responding to cyber threats.
 - Network segmentation to limit attack spread  
 - Regular patching and updating of systems  
 - Automated alerts on suspicious or foreign IP connections  
-- Integration with firewalls and IDS for layered defense  
+- Integration with firewalls and IDS for layered defense and many other things
 
