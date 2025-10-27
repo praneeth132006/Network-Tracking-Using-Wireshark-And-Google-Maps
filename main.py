@@ -6,7 +6,7 @@ gi = pygeoip.GeoIP('GeoLiteCity.dat')
 
 def retKML(dstip, srcip):
     dst = gi.record_by_name(dstip)
-    src = gi.record_by_name('x.xxx.xxx.xxx')
+    src = gi.record_by_name('192.168.0.8')
     try:
         dstlongitude = dst['longitude']
         dstlatitude = dst['latitude']
@@ -26,7 +26,6 @@ def retKML(dstip, srcip):
         return kml
     except:
         return ''
-      
 def plotIPs(pcap):
     kmlPts = ''
     for (ts, buf) in pcap:
@@ -42,7 +41,7 @@ def plotIPs(pcap):
     return kmlPts
 
 def main():
-    f = open('wire.pcap', 'rb')
+    f = open('mac_data.pcap', 'rb')
     pcap = dpkt.pcap.Reader(f)
     kmlheader = '<?xml version="1.0" encoding="UTF-8"?> \n<kml xmlns="http://www.opengis.net/kml/2.2">\n<Document>\n'\
     '<Style id="transBluePoly">' \
@@ -54,3 +53,6 @@ def main():
     kmlfooter = '</Document>\n</kml>\n'
     kmldoc=kmlheader+plotIPs(pcap)+kmlfooter
     print(kmldoc)
+
+if __name__ == '__main__':
+    main()
