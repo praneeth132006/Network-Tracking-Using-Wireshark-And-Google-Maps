@@ -1,38 +1,24 @@
 
-# Network Tracking using Wireshark and Google Maps
+
+# Network Tracking Project Using Google Maps and Wireshark
 
 ## Overview
 
-This project demonstrates how to parse and geolocate network packets captured by Wireshark, visualize them on Google Maps using KML, and understand the methods and security context behind each step. The explanations below detail every part of the code, show its relevance in modern cybersecurity, feature real-world attack case studies, and recommend prevention best practices.
+This Python project parses network traffic data from a Wireshark `.pcap` file, extracts IP addresses from the packets, locates their geographic coordinates using a GeoIP database, and generates a KML file for visualization of network paths on Google Maps.
 
 ***
 
-## Table of Contents
+## Libraries Used
 
-- [Project Purpose](#project-purpose)
-- [Code Breakdown](#code-breakdown)
-    - [Imports](#imports)
-    - [GeoIP Database Initialization](#geoip-database-initialization)
-    - [KML String Builder Function](#kml-string-builder-function)
-    - [Packet Plotting Function](#packet-plotting-function)
-    - [Main Routine](#main-routine)
-    - [Script Entry Point](#script-entry-point)
-- [Real-World Incident Examples](#real-world-incident-examples)
-- [Security and Prevention Tips](#security-and-prevention-tips)
-- [Additional Resources](#additional-resources)
-- [References](#references)
+- **dpkt**: A fast, simple packet creation/parsing library for Python used to read `.pcap` files.
+- **socket**: Provides utilities for networking, here used to convert raw IP bytes to human-readable IP addresses.
+- **pygeoip**: Used to perform IP geolocation lookups against a GeoIP database (`GeoLiteCity.dat`), which maps IP addresses to geographic locations (latitude \& longitude).
 
 ***
 
-## Project Purpose
+## Code Explanation
 
-Network forensics is vital in cybersecurity for tracing malicious activity, identifying data exfiltration pathways, and supporting incident response. By extracting and visualizing IP traffic from raw packet captures, analysts can rapidly spot suspicious routes, attacker locations, and compromise patterns.
-
-***
-
-## Code Breakdown
-
-### Imports
+### Import Statements
 
 ```python
 import dpkt
@@ -40,69 +26,70 @@ import socket
 import pygeoip
 ```
 
-- **dpkt:**
-Parses binary packet data from pcap files (the format used by Wireshark), handling Ethernet, IP, TCP, and more.
-- **socket:**
-Converts raw byte-form IP addresses into readable strings.
-- **pygeoip:**
-Interfaces with a geolocation database to map IPs to their physical (longitude/latitude) locations.
+- **dpkt**: Reads and processes captured packet data.
+- **socket**: Converts binary IP addresses to dotted-decimal format.
+- **pygeoip**: Retrieves geolocation info for IPs.
 
-***
 
-### GeoIP Database Initialization
+### Initialize GeoIP Database
 
 ```python
 gi = pygeoip.GeoIP('GeoLiteCity.dat')
 ```
 
-- **Purpose:**
-Loads the `GeoLiteCity.dat` database (obtained from MaxMind) to support fast IP-to-location lookups.
-- **Importance:**
-Mapping IPs geographically is crucial when tracing attack origins, botnet nodes, or exfiltration paths, helping pinpoint compromised systems.
+- Loads MaxMind’s free `GeoLiteCity` database for IP-to-location mapping.
+- Essential for converting IP addresses to geographic coordinates for map visualization.
 
-***
 
-### KML String Builder Function
+### `main()` Function
 
 ```python
-def retKML(dstip, srcip):
-    dst = gi.record_by_name(dstip)
-    src = gi.record_by_name('192.168.0.8')
-    try:
-        dstlongitude = dst['longitude']
-        dstlatitude = dst['latitude']
-        srclongitude = src['longitude']
-        srclatitude = src['latitude']
-        kml = (
-            '<Placemark>\n'
-            '<name>%s</name>\n'
-            '<extrude>1</extrude>\n'
-            '<tessellate>1</tessellate>\n'
-            '<styleUrl>#transBluePoly</styleUrl>\n'
-            '<LineString>\n'
-            '<coordinates>%6f,%6f\n%6f,%6f</coordinates>\n'
-            '</LineString>\n'
-            '</Placemark>\n'
-        )%(dstip, dstlongitude, dstlatitude, srclongitude, srclatitude)
-        return kml
-    except:
-        return ''
+def main():
+    f = open('demo3.pcap', 'rb')
+    pcap = dpkt.pcap.Reader(f)
 ```
 
-- **Function:**
-Creates one KML placemark for each network connection, describing a line from the source to the destination IP.
-- **GeoIP Lookups:**
-Finds the geo-location (longitude/latitude) for each public IP from the database.
-- **Error Handling:**
-Uses try/except to ensure processing continues if a lookup fails or the IP is not in the database.
-- **KML Format:**
-KML (Keyhole Markup Language) is used by Google Earth/Maps to visualize spatial data.
-- **Customization:**
-The source IP is hardcoded (for demo purposes)—in advanced implementations, this should dynamically take srcip as input.
+- Opens the `.pcap` file `demo3.pcap` in binary mode for reading network packet data.
+- `dpkt.pcap.Reader` prepares the file for packet iteration.
+
+```python
+    kmlheader = '<?xml version="1.0" encoding="UTF-8"?> \n<kml xmlns="http://www.opengis.net/kml/2.2">\n<Document>\n'\
+    '<Style id="transBluePoly">' \
+    '<LineStyle>' \
+    '<width>1.5</width>' \
+    '<color>501400E6</color>' \
+    '</LineStyle>' \
+    '</Style>'
+```
+
+- KML file header with XML declaration, namespace, and a style block defining a translucent blue line.
+- This style will visually represent the network paths in Google Earth or Google Maps.
+
+```python
+    kmlfooter = '</Document>\n</kml>\n'
+```
+
+- Closes required KML tags.
+
+```python
+    kmldoc=kmlheader+plotIPs(pcap)+kmlfooter
+    print(kmldoc)
+```
+
+- Combines the header, generated KML points/paths from `plotIPs()`, and footer into the full KML document.
+- Prints the KML document content for review/debug.
+
+```python
+    f = open('file.kml', 'w')
+    f.write(kmldoc)
+    f.close()
+```
+
+- Saves the KML output to `file.kml` for use with Google Maps or Earth.
 
 ***
 
-### Packet Plotting Function
+### `plotIPs()` Function
 
 ```python
 def plotIPs(pcap):
@@ -120,39 +107,53 @@ def plotIPs(pcap):
     return kmlPts
 ```
 
-- **Functionality:**
-Iterates over all packets, decodes layers to extract source and destination IPs, and generates the corresponding KML for each connection.
-- **Resilience:**
-Skips malformed or non-IP packets (e.g., ARP frames), ensuring robustness for diverse capture files.
-- **Integration:**
-Aggregates all results into one KML data block for easy visual import.
+- Iterates over each packet in the `.pcap` file.
+- Converts raw packet bytes into an Ethernet frame (`dpkt.ethernet.Ethernet`).
+- Extracts IP layer (`ip = eth.data`).
+- Converts source (`ip.src`) and destination (`ip.dst`) IP addresses from binary to string using `socket.inet_ntoa()`.
+- Calls `retKML()` to generate KML for the source-destination IP pair.
+- Adds generated KML snippet to the cumulative string.
+- Ignores any packets that cause exceptions (e.g., non-IP packets).
 
 ***
 
-### Main Routine
+### `retKML()` Function
 
 ```python
-def main():
-    f = open('mac_data.pcap', 'rb')
-    pcap = dpkt.pcap.Reader(f)
-    kmlheader = '<?xml version="1.0" encoding="UTF-8"?> \n<kml xmlns="http://www.opengis.net/kml/2.2">\n<Document>\n'\
-    '<Style id="transBluePoly">' \
-                '<LineStyle>' \
-                '<width>1.5</width>' \
-                '<color>501400E6</color>' \
-                '</LineStyle>' \
-                '</Style>'
-    kmlfooter = '</Document>\n</kml>\n'
-    kmldoc=kmlheader+plotIPs(pcap)+kmlfooter
-    print(kmldoc)
+def retKML(dstip, srcip):
+    dst = gi.record_by_name(dstip)
+    src = gi.record_by_name('182.66.218.121')
+    try:
+        dstlongitude = dst['longitude']
+        dstlatitude = dst['latitude']
+        srclongitude = src['longitude']
+        srclatitude = src['latitude']
 ```
 
-- **File Handling:**
-Opens the capture file as bytes (necessary for pcap processing).
-- **Header/Footer:**
-Prepares the full KML document, including styles (like line color and thickness) for improved readability in Google Earth/Maps.
-- **Final Output:**
-Concatenates the header, all plotted connections, and the footer, then prints for file redirection or immediate copy to visualization tools.
+- Performs geolocation lookup for the destination IP using the GeoIP database.
+- Note: source IP geolocation is hardcoded to `'182.66.218.121'` (can be improved by passing `srcip` instead).
+- Extracts latitude and longitude for both IPs.
+
+```python
+        kml = (
+            '<Placemark>\n'
+            '<name>%s</name>\n'
+            '<extrude>1</extrude>\n'
+            '<tessellate>1</tessellate>\n'
+            '<styleUrl>#transBluePoly</styleUrl>\n'
+            '<LineString>\n'
+            '<coordinates>%6f,%6f\n%6f,%6f</coordinates>\n'
+            '</LineString>\n'
+            '</Placemark>\n'
+        )%(dstip, dstlongitude, dstlatitude, srclongitude, srclatitude)
+        return kml
+    except:
+        return ''
+```
+
+- Generates a KML `<Placemark>` element representing a line between the destination and source coordinates.
+- Uses previously defined blue line style.
+- If any geolocation fails, returns empty string to skip invalid points.
 
 ***
 
@@ -163,68 +164,29 @@ if __name__ == '__main__':
     main()
 ```
 
-- **Standard Python Practice:**
-Ensures the script runs its main logic only when directly executed, allowing for module imports elsewhere.
+- Standard practice to run the `main()` function when the script is executed directly (not imported).
 
 ***
 
-## Real-World Incident Examples
-
-### 1. 2014 JP Morgan Chase Breach
-
-- Attackers exploited networking weaknesses, leading to massive data theft. Forensics used similar IP geolocation and packet tracking to visualize attacker paths through infrastructure.
 
 
-### 2. 2017 WannaCry Ransomware
+## Terminal Commands to Run
 
-- Tracked by packet captures and mapped geopolitically to show spread worldwide, helping governments pinpoint outbreaks and coordinate response.
+```shell
+python your_script_name.py
+```
 
-
-### 3. 2018 Iranian Cyber-Espionage
-
-- Security researchers traced IPs from European institutions back to Iranian operators using similar geo-mapping techniques, supporting nation-state attribution.
-
-
-### 4. 2020 SolarWinds Attack
-
-- Packet capture analysis with geo-mapping showed global reach and infection chain, aiding in rapid response and remediation across organizations.
+- Replace `your_script_name.py` with the filename of your script.
 
 ***
 
-## Security and Prevention Tips
+## Key Vocabulary
 
-- **Sanitize Inputs:**
-Validate all IPs and handle exceptions gracefully to avoid data loss or script crashes.
-- **Keep Databases Updated:**
-Regularly update GeoIP databases to prevent misattribution errors during attacks.
-- **Network Segmentation:**
-Restrict unnecessary connections between network zones, limiting attacker mobility and traffic visualization scope.
-- **Automated Alerts:**
-Combine IP mapping with SIEM monitoring to flag abnormal geo-locations.
-- **Traffic Encryption:**
-Encrypt sensitive internal traffic so that even if PCAP files leak, no confidential data is exposed.
-- **Role-Based Access:**
-Limit packet capture and analysis to trusted, trained administrators to prevent misuse by adversaries.
-- **Update Tools:**
-Frequently update Python libraries and dependencies (`dpkt`, `pygeoip`, etc.) to avoid vulnerabilities in the codebase.
-- **Legal Compliance:**
-Ensure use of geo-mapping tools adheres to all applicable privacy and legal standards (GDPR, etc.).
+- **PCAP (Packet Capture):** File format to save network packet data.
+- **KML (Keyhole Markup Language):** XML-based format for geographic visualization.
+- **GeoIP:** Method to map IP addresses to geographic locations.
+- **Placemark:** A point or line feature in KML for map annotations.
+- **Extrude and Tessellate in KML:** Visual effects to enhance line rendering in 3D maps.
 
-***
-
-## Additional Resources
-
-- **Wireshark Documentation:** Packet capture and analysis guide.
-- **MaxMind GeoIP:** Updated geolocation datasets and usage.
-- **KML Reference:** Official documentation for Google Maps/Earth integration.
-- **dpkt Docs:** Deep dive into Python packet parsing.
-
-***
-
-## References
-
-- Standard network security documentation, library guides, and professional cybersecurity resources.
-- Incident reports from major cybersecurity news outlets and forensic analysis write-ups.
-- Security best practices as published by SANS, NIST, and cybersecurity authorities.
 
 
