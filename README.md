@@ -106,6 +106,11 @@ After running, open the output KML file in Google Maps and explore the visualize
 
 
 ***
+## Precausions 
+- Make sure that VPNs are turned off
+- Should use pulic ip instead of private ip address
+
+***
 
 ## Contributing
 
