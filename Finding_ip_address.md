@@ -1,16 +1,4 @@
-<img src="https://r2cdn.perplexity.ai/pplx-full-logo-primary-dark%402x.png" style="height:64px;margin-right:32px"/>
-
-# write a .md file to find both public and private ip addresses in mac, windows, linux
-
-Here's a detailed Markdown (.md) file explaining how to find both public and private IP addresses on macOS, Windows, and Linux systems:
-
-***
-
-# How to Find Public and Private IP Addresses on macOS, Windows, and Linux
-
-This guide explains how to find both public and private IP addresses on different operating systems including macOS, Windows, and Linux.
-
-***
+# Finding Public and Private IP Addresses on macOS, Windows, and Linux
 
 ## Understanding IP Addresses
 
@@ -125,11 +113,5 @@ curl icanhazip.com
 - Using terminal commands is quick, but websites make it easy if you prefer a graphical interface.
 - To find the IP address of a particular network interface, identify the interface name (`en0`, `wlan0`, `eth0` etc.) before using commands.
 
-***
 
-This guide should help users on any major platform find their local and external IP addresses easily.
-
-***
-
-If you want, I can also provide a shell script or batch script version that can automate some of these tasks.
 
