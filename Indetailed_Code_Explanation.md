@@ -107,29 +107,6 @@ def plotIPs(pcap):
     return kmlPts
 ```
 
-- Iterates over each packet in the `.pcap` file.
-- Converts raw packet bytes into an Ethernet frame (`dpkt.ethernet.Ethernet`).
-- Extracts IP layer (`ip = eth.data`).
-- Converts source (`ip.src`) and destination (`ip.dst`) IP addresses from binary to string using `socket.inet_ntoa()`.
-- Calls `retKML()` to generate KML for the source-destination IP pair.
-- Adds generated KML snippet to the cumulative string.
-- Ignores any packets that cause exceptions (e.g., non-IP packets).
-
-***
-
-### `retKML()` Function
-
-```python
-def retKML(dstip, srcip):
-    dst = gi.record_by_name(dstip)
-    src = gi.record_by_name('182.66.218.121')
-    try:
-        dstlongitude = dst['longitude']
-        dstlatitude = dst['latitude']
-        srclongitude = src['longitude']
-        srclatitude = src['latitude']
-```
-
 This function processes network packets from a pcap capture and generates KML (Keyhole Markup Language) map data for visualizing IP connections.
 
 
@@ -159,6 +136,28 @@ This function processes network packets from a pcap capture and generates KML (K
 ### In Simple Terms
 
 This function looks at each network packet, extracts the source and destination IP addresses, converts them into geographic map data, and generates a big string with all the map points and lines so you can visualize network traffic on a map.
+
+
+
+
+***
+
+### `retKML()` Function
+
+```python
+def retKML(dstip, srcip):
+    dst = gi.record_by_name(dstip)
+    src = gi.record_by_name('182.66.218.121')
+    try:
+        dstlongitude = dst['longitude']
+        dstlatitude = dst['latitude']
+        srclongitude = src['longitude']
+        srclatitude = src['latitude']
+```
+
+- Performs geolocation lookup for the destination IP using the GeoIP database.
+- Note: source IP geolocation is hardcoded to `'182.66.218.121'` (can be improved by passing `srcip` instead).
+- Extracts latitude and longitude for both IPs.
 
 ---
 
