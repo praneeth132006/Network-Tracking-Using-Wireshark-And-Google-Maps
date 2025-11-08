@@ -1,0 +1,56 @@
+
+============================================================
+NETWORK TRAFFIC ANALYSIS REPORT
+============================================================
+
+SOURCE INFORMATION:
+  Your IP: 182.66.218.121
+  Location: None, India
+
+OVERVIEW:
+  Total Packets Analyzed: 16,755
+  Unique Source IPs: 41
+  Unique Destination IPs: 45
+  Countries Detected: 8
+  Processing Time: 17.42 seconds
+
+PROTOCOL DISTRIBUTION:
+  TCP: 5,082 packets
+  UDP: 754 packets
+  ICMP: 34 packets
+
+TOP 10 DESTINATION IPs:
+  172.20.10.2: 3677 connections
+  184.51.195.235: 527 connections
+  3.254.239.161: 392 connections
+  172.20.10.1: 274 connections
+  18.67.161.8: 136 connections
+  103.243.32.90: 92 connections
+  44.215.129.188: 79 connections
+  18.161.242.236: 63 connections
+  63.34.150.9: 49 connections
+  54.190.62.8: 42 connections
+
+TOP SERVICES/PORTS:
+  Port 443 (HTTPS): 1893 connections
+  Port 54238 (Unknown): 1529 connections
+  Port 54234 (Unknown): 374 connections
+  Port 53 (DNS): 261 connections
+  Port 54188 (Unknown): 259 connections
+  Port 54232 (Unknown): 193 connections
+  Port 54219 (Unknown): 105 connections
+  Port 54194 (Unknown): 44 connections
+  Port 54160 (Unknown): 43 connections
+  Port 51032 (Unknown): 30 connections
+
+COUNTRIES DETECTED:
+  - Australia
+  - Belgium
+  - China
+  - Denmark
+  - India
+  - Ireland
+  - United Kingdom
+  - United States
+
+============================================================
