@@ -1,80 +1,66 @@
-
-
 # Network Tracking Using Wireshark and Google Maps
 
 ## Project Overview
 
-This project demonstrates the use of Wireshark to capture network traffic data and visualize the geolocation of the source IP addresses on Google Maps. It leverages Python scripting to process PCAP files captured by Wireshark, translate IP addresses to geographic coordinates using geo-IP databases, and plot these points on a Google Maps interface with KML files.
-
-The primary goal is to provide an insightful way of analyzing network traffic visually, which can aid network administrators and cybersecurity professionals in monitoring and locating network sources effectively.
+This project enables you to capture network traffic with Wireshark, process that data using Python scripts, and visualize geolocated IP addresses both on Google Maps (KML output) and as an interactive HTML dashboard. These combined visual and tabular outputs help administrators or cybersecurity professionals quickly analyze network activity and investigate sources.
 
 ***
 
 ## Features
 
-- Capture network traffic using Wireshark.
-- Extract and parse network packet data, including IP addresses and timestamps.
-- Use GeoLiteCity or similar geo-IP databases to convert IP addresses into latitude and longitude.
-- Generate KML files compatible with Google Maps to plot traffic sources on a map.
-- Provide a clear geographic visualization of network activity.
+- Capture network packets and flows with Wireshark
+- Extract, parse, and geo-locate source IPs from PCAP with Python and GeoLiteCity
+- Generate KML files viewable in Google Maps ([Google My Maps](https://www.google.com/maps/d/))
+- Produce a full-featured HTML dashboard report for interactive data exploration
+- Displays comprehensive statistics: total packets, flows, unique IPs, countries, and processing time
 
 ***
 
 ## Technologies Used
 
-- **Wireshark:** Network packet capture and analysis tool.
-- **Python 3:** Scripting language for data processing and KML generation.
-- **GeoLiteCity Database:** For IP to geolocation mapping.
-- **Google Maps:** Visual interface to display network traffic locations.
-- Python libraries such as `dpkt`, `pygeoip`, `simplekml`, and others for packet parsing and KML handling.
+- **Wireshark:** Network packet capture ([Download Wireshark](https://www.wireshark.org/download.html))
+- **Python 3:** Scripting for packet parsing, IP geolocation, and report generation
+- **GeoLiteCity Database:** Translates IPs to locations
+- **Google Maps/My Maps:** Show KML visualizations
+- **HTML Dashboard:** Rich analytics and filtering
+- **Python Libraries:** `dpkt`, `pygeoip`, `simplekml`
 
 ***
 
 ## System Requirements
 
-- Operating System: Windows, Linux, or macOS
-- Python 3.x installed
-- Wireshark installed and configured to capture network traffic
-- GeoLiteCity database files downloaded and placed in the project directory
-- Internet connection for Google Maps visualization
+- Windows, Linux, or macOS with Python 3.x
+- Wireshark for packet capture
+- GeoLiteCity database file, placed in your project directory
+- Internet connection for Google Maps and dashboard visualization
 
 ***
 
 ## Installation and Setup
 
-### Step 1: Install Wireshark
-
-Download and install Wireshark from the official website: [Wireshark Download](https://www.wireshark.org/download.html)
-
-### Step 2: Install Python and Required Libraries
-
-Make sure Python 3 is installed. Then install necessary Python libraries via pip:
+1. **Install Wireshark:**
+[Wireshark Download](https://www.wireshark.org/download.html)
+2. **Install Python 3 and libraries:**
 
 ```bash
 pip install dpkt pygeoip simplekml
 ```
 
-
-### Step 3: Download GeoLiteCity Database
-
-Download the GeoLiteCity database from an official or trusted source and place it in the project directory for IP geolocation.
-
-### Step 4: Capture Network Traffic
-
-Launch Wireshark, start capturing traffic on the desired network interface, and save the capture as a PCAP file.
-
-### Step 5: Run the Python Script
-
-Run the provided Python script (`main.py`) with the saved PCAP file as input. The script will process the data and generate a KML file.
+3. **Download GeoLiteCity Database:**
+Download from MaxMind or a reliable source, and place it in your project folder.
+4. **Capture Network Traffic:**
+Start Wireshark, record traffic, then save as a `.pcap` file.
+5. **Run the Python Script for Analysis:**
 
 ```bash
 python main.py path_to_capture.pcap
 ```
 
-
-### Step 6: Visualize on Google Maps
-
-Upload or open the generated KML file using Google My Maps [Google My Maps](https://www.google.com/maps/d/) to visualize network traffic locations.
+This creates both a KML file for Google Maps and an HTML dashboard.
+6. **Visualize KML File:**
+Upload the generated `.kml` file to [Google My Maps](https://www.google.com/maps/d/) to inspect network locations spatially.
+7. **Open the HTML Dashboard:**
+Open `traffic2_report.html` in your browser to view and interact with dashboard analytics, filter/search traffic, and explore detailed tables with geo-annotations.
 
 ***
 
@@ -84,34 +70,28 @@ Upload or open the generated KML file using Google My Maps [Google My Maps](http
 python main.py capture.pcap
 ```
 
-After running, open the output KML file in Google Maps and explore the visualized network traffic points.
+- Then open the `.kml` file on Google Maps, and `traffic2_report.html` in your browser for analytics.
 
 ***
 
-## Project Structure
+## Output Files Overview
 
-- `main.py` — Main Python script for parsing PCAP and generating KML.
-- `GeoLiteCity.dat` — GeoIP database file for IP to location translation.
-- `README.md` — Project documentation.
-- Any other dependencies or scripts
-
-***
-
-## Challenges Faced
-
-- Parsing PCAP files reliably across different network interfaces.
-- Accurate geolocation mapping of IP addresses.
-- Handling a large volume of network packets efficiently.
-- Generating precise KML output compatible with Google Maps.
-
-
-***
-## Precausions 
-- Make sure that VPNs are turned off
-- Should use pulic ip instead of private ip address
+- **KML File:** Plot IP geolocations graphically on Google Maps; inspect global network flows interactively.
+- **traffic2_report.html:**
+    - Interactive dashboard with summary statistics, search/filter capability, sortable tables showing timestamps, IP addresses, ports, protocols, services, and locations. Useful for investigations and presentations.
 
 ***
 
-## Contributing
+## Best Practices and Precautions
 
-Contributions are welcome! Feel free to fork the repository, make improvements, and submit pull requests. Please follow the existing code style and provide clear documentation.
+- Disable any VPNs while capturing, or IP geolocations may be inaccurate.
+- Only use public IPs for location mapping; internal/private IPs will not resolve meaningfully.
+- Consider administrative privileges to ensure Wireshark can access all interfaces.
+
+***
+
+## Contribution
+
+Contributions are welcomed! Fork this repository, enhance the code, and submit a pull request. Please write clear commit messages and add/update documentation as needed.
+
+
