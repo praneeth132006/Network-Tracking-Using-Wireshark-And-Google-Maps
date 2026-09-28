@@ -149,12 +149,11 @@ class Session:
         srv.listen(1)
         srv.settimeout(0.5)
         token = secrets.token_hex(16)
-        cmd = [sys.executable, HELPER_PATH, '--port', str(srv.getsockname()[1]), '--token', token]
-        if iface:
-            cmd += ['--iface', iface]
+        cmd = helper_command() + ['--port', str(srv.getsockname()[1]), '--token', token,
+                                  '--iface', iface or default_iface()]
         if bpf:
             cmd += ['--filter', bpf]
-        conn = None
+        conn = reader = None
         try:
             proc = launch_elevated(cmd)
             deadline = time.time() + 300
@@ -167,16 +166,18 @@ class Session:
                     if proc.poll() is not None:
                         err = proc.stderr.read().decode('utf-8', 'replace')
                         cancelled = '-128' in err or 'cancel' in err.lower() or proc.returncode in (126, 127)
+                        last_line = next((l for l in reversed(err.strip().splitlines()) if l.strip()), '')
                         self.error = ('Live capture was cancelled at the password prompt.' if cancelled
-                                      else f'Could not start live capture: {err.strip() or proc.returncode}')
+                                      else f'Could not start live capture: {last_line or proc.returncode}')
                         return
                     if time.time() > deadline:
                         self.error = 'Timed out waiting for the password prompt.'
                         return
                     continue
                 candidate.settimeout(10)
-                if candidate.makefile('rb').readline().strip() == token.encode():
-                    conn = candidate
+                candidate_reader = candidate.makefile('rb')     # keep using this one: it may already buffer frames
+                if candidate_reader.readline().strip() == token.encode():
+                    conn, reader = candidate, candidate_reader
                 else:
                     candidate.close()
         except OSError as e:
@@ -194,7 +195,7 @@ class Session:
         # Closing the socket is how we tell the helper to stop
         threading.Thread(target=lambda: (stop.wait(), _shutdown(conn)), daemon=True).start()
         error = None
-        reader = conn.makefile('rb')
+        linktype = 1
         try:
             while True:
                 header = reader.read(HELPER_HEADER.size)
@@ -202,12 +203,19 @@ class Session:
                     if not stop.is_set():
                         error = 'Live capture stopped unexpectedly.'
                     break
-                kind, ts, wire_len, size = HELPER_HEADER.unpack(header)
+                kind, ts, value, size = HELPER_HEADER.unpack(header)
                 payload = reader.read(size) if size else b''
-                if kind == b'E':
+                if kind == b'L':
+                    linktype = value
+                elif kind == b'E':
                     error = friendly_capture_error(Exception(payload.decode('utf-8', 'replace')), bpf)
                     break
-                analyzer.ingest(ts, raw_to_ip(payload), wire_len)
+                elif kind == b'P':
+                    try:
+                        ip = core.decode_link(linktype, payload)
+                    except (dpkt.UnpackError, ValueError, IndexError):
+                        ip = None
+                    analyzer.ingest(ts, ip, value)
         except OSError:
             pass
         finally:
@@ -317,12 +325,30 @@ def capture_access():
     return 'password' if elevation_method() else 'unavailable'
 
 
+ELEVATE_CLAUSE = ' with prompt "NetMap needs your password to watch network traffic on this Mac." with administrator privileges'
+
+
+def helper_command():
+    """Python + inline helper code that a root process can run.
+
+    macOS privacy protection blocks root processes started from the password prompt from reading
+    ~/Downloads, ~/Documents and ~/Desktop - so neither the project's .venv interpreter nor
+    capture_helper.py on disk can be used there. Use the base interpreter and pass the code inline.
+    """
+    python = os.path.realpath(getattr(sys, '_base_executable', None) or sys.executable)
+    protected = [os.path.expanduser(f'~/{d}') for d in ('Downloads', 'Documents', 'Desktop')]
+    if any(python.startswith(p + os.sep) for p in protected):
+        python = '/usr/bin/python3'
+    with open(HELPER_PATH, encoding='utf-8') as f:
+        code = f.read()
+    return [python, '-I', '-c', code]
+
+
 def launch_elevated(cmd):
     if elevation_method() == 'macos':
         shell = ' '.join(shlex.quote(c) for c in cmd)
         shell = shell.replace('\\', '\\\\').replace('"', '\\"')
-        script = (f'do shell script "{shell}" with prompt "NetMap needs your password to watch '
-                  f'network traffic on this Mac." with administrator privileges')
+        script = f'do shell script "{shell}"{ELEVATE_CLAUSE}'
         args = ['osascript', '-e', script]
     else:
         args = ['pkexec'] + cmd
