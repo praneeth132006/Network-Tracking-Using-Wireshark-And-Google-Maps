@@ -1,0 +1,78 @@
+ip,hostname,organisation,city,country,latitude,longitude,packets,bytes_sent,bytes_received,services,ports,status,alerts,first_seen,last_seen
+2a04:4e42:59::272,images-na.ssl-images-amazon.com,Amazon,,,,,5025,206974,5288775,QUIC HTTPS ICMPv6,443,encrypted,0,2025-11-08 14:08:57,2025-11-08 14:09:15
+184.51.195.235,rukminim2.flixcart.com,Flipkart,,United States,34.0544,-118.244,2430,48661,2669045,HTTPS,443,encrypted,0,2025-11-08 14:09:12,2025-11-08 14:09:18
+2404:6800:4007:808::2004,pnmaaa-aq-in-x04.1e100.net,Google,,,,,1969,136601,1384364,QUIC,443,encrypted,0,2025-11-08 14:08:50,2025-11-08 14:09:20
+2404:6800:4007:82f::2003,www.gstatic.com,Google,,,,,591,50788,537052,QUIC,443,encrypted,0,2025-11-08 14:08:53,2025-11-08 14:09:04
+2600:140f:5e00:486::3bda,www.amazon.in,Amazon,,,,,611,36234,455418,QUIC HTTPS,443,encrypted,0,2025-11-08 14:08:56,2025-11-08 14:09:19
+3.254.239.161,unagi.amazon.in,Amazon,,United States,37.751,-97.822,683,330116,102660,HTTPS,443,encrypted,0,2025-11-08 14:08:57,2025-11-08 14:09:20
+18.67.161.8,player.live-video.net,Amazon IVS / Twitch,Cambridge,United States,42.3646,-71.1028,405,13315,375445,HTTPS,443,encrypted,0,2025-11-08 14:09:00,2025-11-08 14:09:02
+103.243.32.90,www.flipkart.com,Flipkart,,India,20.0,77.0,292,13986,272087,HTTPS,443,encrypted,0,2025-11-08 14:09:12,2025-11-08 14:09:14
+2404:6800:4007:835::200e,calendar.google.com,Google,,,,,479,104471,161243,QUIC ICMPv6,443,encrypted,0,2025-11-08 14:09:00,2025-11-08 14:09:20
+2404:6800:4007:83b::200e,play.google.com,Google,,,,,308,32446,223118,QUIC,443,encrypted,0,2025-11-08 14:08:55,2025-11-08 14:09:12
+2404:6800:4007:839::200a,waa-pa.clients6.google.com,Google,,,,,181,13640,139374,QUIC,443,encrypted,0,2025-11-08 14:08:56,2025-11-08 14:09:13
+2001:df2:e500:ed1a::1,en.wikipedia.org,,,,,,199,17869,127637,HTTPS,443,encrypted,0,2025-11-08 14:09:07,2025-11-08 14:09:10
+2404:6800:4007:821::200e,www.youtube.com,YouTube,,,,,209,51765,81460,QUIC,443,encrypted,0,2025-11-08 14:08:55,2025-11-08 14:09:13
+2404:6800:4007:834::200e,encrypted-tbn0.gstatic.com,Google,,,,,146,19969,80267,QUIC,443,encrypted,0,2025-11-08 14:08:54,2025-11-08 14:09:11
+18.161.242.236,data.amazon.in,Amazon,,United States,37.751,-97.822,145,18938,66194,HTTPS,443,encrypted,0,2025-11-08 14:09:00,2025-11-08 14:09:02
+2404:6800:4007:805::200a,drivefrontend-pa.clients6.google.com,Google,,,,,178,41732,39593,QUIC,443,encrypted,0,2025-11-08 14:08:54,2025-11-08 14:09:11
+2404:6800:4007:81b::200a,optimizationguide-pa.googleapis.com,Google,,,,,114,10917,51342,QUIC,443,encrypted,0,2025-11-08 14:08:53,2025-11-08 14:09:12
+142.251.222.206,calendar.google.com,Google,Mountain View,United States,37.4192,-122.0574,81,18110,43948,QUIC ICMP,443,encrypted,0,2025-11-08 14:09:00,2025-11-08 14:09:18
+44.215.129.188,unagi-na.amazon.com,Amazon,San Diego,United States,32.8072,-117.1649,147,28192,30862,HTTPS,443,encrypted,0,2025-11-08 14:09:03,2025-11-08 14:09:18
+2606:4700:83b3:5a02:8cfd:4a2:26fb:7c33,,,,,,,78,4823,41331,HTTPS,443,encrypted,0,2025-11-08 14:08:51,2025-11-08 14:09:20
+34.36.209.50,sonic.fdp.api.flipkart.com,Flipkart,Houston,United States,29.9668,-95.3454,80,23476,13983,QUIC HTTPS,443,encrypted,0,2025-11-08 14:09:13,2025-11-08 14:09:16
+52.94.220.185,aax-eu.amazon-adsystem.com,Amazon,Dublin,Ireland,53.3331,-6.2489,75,13195,23532,HTTPS,443,encrypted,0,2025-11-08 14:09:08,2025-11-08 14:09:15
+2404:6800:4007:830::200e,pnmaaa-au-in-x0e.1e100.net,Google,,,,,49,7850,27491,QUIC,443,encrypted,0,2025-11-08 14:09:03,2025-11-08 14:09:03
+162.247.243.29,bam.nr-data.net,,,United States,37.751,-97.822,64,21914,10524,HTTPS ICMP,443,encrypted,0,2025-11-08 14:09:14,2025-11-08 14:09:16
+54.190.62.8,player.stats.live-video.net,Amazon IVS / Twitch,Boardman,United States,45.8696,-119.688,78,12441,13290,HTTPS,443,encrypted,0,2025-11-08 14:09:03,2025-11-08 14:09:06
+51.94.212.156,api.stores.eu-south-2.prod.paets.advertising.amazon.dev,Amazon,,United Kingdom,51.4964,-0.1224,73,9006,16720,HTTPS,443,encrypted,0,2025-11-08 14:08:59,2025-11-08 14:09:15
+2404:6800:4007:835::200a,content-autofill.googleapis.com,Google,,,,,65,9692,14828,HTTPS,443,encrypted,0,2025-11-08 14:09:09,2025-11-08 14:09:15
+2a04:4e42:25::307,metrics.media-amazon.com,Amazon,,,,,50,7440,17056,HTTPS,443,encrypted,0,2025-11-08 14:09:03,2025-11-08 14:09:05
+35.186.194.101,sync.sxp.smartclip.net,,Mountain View,United States,37.4192,-122.0574,58,8782,15630,HTTPS QUIC,443,encrypted,0,2025-11-08 14:09:13,2025-11-08 14:09:14
+2404:6800:4003:c0f::54,accounts.google.com,Google,,,,,49,12051,11954,QUIC,443,encrypted,0,2025-11-08 14:08:55,2025-11-08 14:09:12
+2404:6800:4007:831::2003,ssl.gstatic.com,Google,,,,,51,11701,11598,HTTPS QUIC,443,encrypted,0,2025-11-08 14:08:56,2025-11-08 14:09:04
+63.34.150.9,ec2-63-34-150-9.eu-west-1.compute.amazonaws.com,Amazon AWS,Seattle,United States,47.542,-122.3123,94,16566,6505,HTTPS,443,encrypted,0,2025-11-08 14:08:53,2025-11-08 14:09:16
+2406:da1a:b1c:f104:49d4:e24b:e469:1ac6,aps32.playlist.live-video.net,Amazon IVS / Twitch,,,,,44,6429,15478,HTTPS,443,encrypted,0,2025-11-08 14:09:04,2025-11-08 14:09:06
+2404:6800:4007:838::200e,docs.google.com,Google,,,,,41,9078,12140,QUIC,443,encrypted,0,2025-11-08 14:09:03,2025-11-08 14:09:05
+2404:6800:4007:808::2006,static.doubleclick.net,Google Ads,,,,,29,9611,10377,QUIC,443,encrypted,0,2025-11-08 14:08:56,2025-11-08 14:08:56
+52.222.206.170,a6cb17768bdb5707b10787619e4c9a967.profile.fra56-p3.cloudfront.net,Amazon CloudFront,Seattle,United States,47.6344,-122.3422,40,5749,14144,HTTPS,443,encrypted,0,2025-11-08 14:09:12,2025-11-08 14:09:13
+2404:6800:4007:82f::2002,googleads.g.doubleclick.net,Google,,,,,37,8768,10368,QUIC,443,encrypted,0,2025-11-08 14:08:56,2025-11-08 14:09:12
+2600:9000:2579:4000:7:9756:2040:93a1,4b64d6fa612f.us-east-1.playback.live-video.net,Amazon IVS / Twitch,,,,,39,3925,14154,HTTPS,443,encrypted,0,2025-11-08 14:09:03,2025-11-08 14:09:04
+108.158.251.15,p47r3qkl5raepa5flsczs7khqq.appsync-api.eu-west-1.amazonaws.com,Amazon AWS,,United States,37.751,-97.822,44,6799,11268,HTTPS,443,encrypted,0,2025-11-08 14:09:00,2025-11-08 14:09:02
+52.16.32.113,p47r3qkl5raepa5flsczs7khqq.appsync-realtime-api.eu-west-1.amazonaws.com,Amazon AWS,Dublin,Ireland,53.3331,-6.2489,48,9281,8445,HTTPS,443,encrypted,0,2025-11-08 14:09:00,2025-11-08 14:09:20
+44.227.15.215,redirect.prod.experiment.routing.cloudfront.aws.a2z.com,Amazon CloudFront,San Diego,United States,32.8072,-117.1649,46,5924,11123,HTTPS,443,encrypted,0,2025-11-08 14:09:11,2025-11-08 14:09:13
+50.16.197.56,loadus.exelator.com,,Ashburn,United States,39.0481,-77.4728,37,6711,10058,HTTPS,443,encrypted,0,2025-11-08 14:09:12,2025-11-08 14:09:14
+2404:6800:4007:838::2008,www.googletagmanager.com,Google,,,,,53,8545,7672,QUIC,443,encrypted,0,2025-11-08 14:08:54,2025-11-08 14:09:11
+108.158.251.78,rf-completion.amazon.in,Amazon,,United States,37.751,-97.822,40,6157,9590,HTTPS,443,encrypted,0,2025-11-08 14:09:00,2025-11-08 14:09:01
+2600:9000:2241:e200:0:90df:9e80:21,d231gvmk20yd16.cloudfront.net,Amazon CloudFront,,,,,36,5005,10655,HTTPS,443,encrypted,0,2025-11-08 14:09:00,2025-11-08 14:09:02
+2404:6800:4007:80f::200a,www.googleapis.com,Google,,,,,45,5630,9996,HTTPS,443,encrypted,0,2025-11-08 14:09:03,2025-11-08 14:09:07
+18.161.246.102,aax-eu-zaz.amazon.in,Amazon,,United States,37.751,-97.822,52,8394,6306,HTTPS,443,encrypted,0,2025-11-08 14:08:57,2025-11-08 14:09:16
+2a03:2880:f36a:1:face:b00c:0:25de,www.facebook.com,Meta,,,,,28,4328,9727,QUIC,443,encrypted,0,2025-11-08 14:09:12,2025-11-08 14:09:13
+142.250.183.162,www.googleadservices.com,Google,Mountain View,United States,37.4192,-122.0574,54,6849,6580,QUIC,443,encrypted,0,2025-11-08 14:08:54,2025-11-08 14:09:11
+103.43.90.19,ib.adnxs.com,,Sydney,Australia,-33.8612,151.1982,28,7428,4697,HTTPS,443,encrypted,0,2025-11-08 14:09:11,2025-11-08 14:09:12
+34.111.79.67,odr.mookie1.com,,Houston,United States,29.9668,-95.3454,23,3873,8052,QUIC,443,encrypted,0,2025-11-08 14:09:10,2025-11-08 14:09:11
+185.84.60.23,c1.adform.net,,,Denmark,55.7123,12.0564,27,3401,8122,HTTPS,443,encrypted,0,2025-11-08 14:09:11,2025-11-08 14:09:11
+2001:df2:e500:ed1a::2:b,upload.wikimedia.org,,,,,,23,3553,7119,HTTPS,443,encrypted,0,2025-11-08 14:09:08,2025-11-08 14:09:09
+2606:4700:83b3:280e:d9fd:249:e355:f6f4,spl.zeotap.com,,,,,,27,5039,5632,HTTPS,443,encrypted,0,2025-11-08 14:09:11,2025-11-08 14:09:12
+2600:1901:1:7c5::,spclient.wg.spotify.com,Spotify,,,,,29,5833,4592,QUIC HTTPS,443,encrypted,0,2025-11-08 14:08:51,2025-11-08 14:09:17
+34.98.64.218,us-u.openx.net,,Houston,United States,29.9668,-95.3454,18,3827,6324,QUIC,443,encrypted,0,2025-11-08 14:09:15,2025-11-08 14:09:15
+119.8.187.97,match.360yield.com,,,China,28.1792,113.1136,26,4154,5846,HTTPS,443,encrypted,0,2025-11-08 14:09:10,2025-11-08 14:09:10
+69.173.158.64,pixel.rubiconproject.com,,Smithfield,United States,41.922,-71.5495,17,3567,5348,HTTPS,443,encrypted,0,2025-11-08 14:09:13,2025-11-08 14:09:14
+18.183.0.120,ms-cookie-sync.presage.io,,Somerville,United States,42.3828,-71.0955,30,3505,4363,HTTPS,443,encrypted,0,2025-11-08 14:09:14,2025-11-08 14:09:19
+2404:6800:4007:83d::2003,fonts.gstatic.com,Google,,,,,17,3242,4595,QUIC,443,encrypted,0,2025-11-08 14:08:53,2025-11-08 14:08:54
+2404:6800:4007:80b::2016,i.ytimg.com,YouTube,,,,,16,4410,3120,HTTPS,443,encrypted,0,2025-11-08 14:08:56,2025-11-08 14:08:56
+3.254.236.135,unagi-eu.amazon.com,Amazon,,United States,37.751,-97.822,16,6157,222,HTTPS,443,encrypted,0,2025-11-08 14:09:20,2025-11-08 14:09:20
+54.90.195.224,ec2-54-90-195-224.compute-1.amazonaws.com,Amazon AWS,Ashburn,United States,39.0481,-77.4728,17,4509,710,HTTPS,443,encrypted,0,2025-11-08 14:08:56,2025-11-08 14:09:20
+57.144.211.33,whatsapp-chatd-edge-shv-02-maa3.facebook.com,Meta,,Belgium,50.85,4.35,22,1106,1712,HTTPS,443,encrypted,0,2025-11-08 14:08:52,2025-11-08 14:09:08
+2607:6bc0::10,,,,,,,14,1096,817,HTTPS,443,encrypted,0,2025-11-08 14:09:20,2025-11-08 14:09:21
+2600:1901:1:304::,,,,,,,10,548,510,HTTPS,443,encrypted,0,2025-11-08 14:09:02,2025-11-08 14:09:08
+103.102.166.224,en.wikipedia.org,,,United States,37.751,-97.822,9,396,222,HTTPS,443,encrypted,0,2025-11-08 14:09:07,2025-11-08 14:09:08
+18.97.36.67,ec2-18-97-36-67.compute-1.amazonaws.com,Amazon AWS,Cambridge,United States,42.3646,-71.1028,3,373,184,HTTPS,443,encrypted,0,2025-11-08 14:08:50,2025-11-08 14:08:50
+104.18.26.48,,,,United States,37.751,-97.822,6,260,237,HTTPS,443,encrypted,0,2025-11-08 14:09:02,2025-11-08 14:09:03
+151.101.157.51,metrics.media-amazon.com,Amazon,Chennai,India,13.0833,80.2833,7,264,222,HTTPS,443,encrypted,0,2025-11-08 14:09:03,2025-11-08 14:09:05
+52.214.137.156,ec2-52-214-137-156.eu-west-1.compute.amazonaws.com,Amazon AWS,Dublin,Ireland,53.3331,-6.2489,6,162,275,HTTPS,443,encrypted,0,2025-11-08 14:08:53,2025-11-08 14:08:53
+2600:1901:1:388::,,,,,,,4,148,172,HTTPS,443,encrypted,0,2025-11-08 14:09:06,2025-11-08 14:09:06
+2404:6800:4003:c06::bc,sm-in-f188.1e100.net,Google,,,,,4,148,172,Google Push,5228,encrypted,0,2025-11-08 14:09:06,2025-11-08 14:09:06
+65.1.18.34,ec2-65-1-18-34.ap-south-1.compute.amazonaws.com,Amazon AWS,,United States,37.751,-97.822,4,120,176,HTTPS,443,encrypted,0,2025-11-08 14:08:51,2025-11-08 14:08:51
+34.36.57.103,103.57.36.34.bc.googleusercontent.com,Google,Houston,United States,29.9668,-95.3454,3,132,66,HTTPS,443,encrypted,0,2025-11-08 14:08:56,2025-11-08 14:08:56
+162.159.200.123,time.cloudflare.com,Cloudflare,,,,,1,90,0,NTP,123,other,0,2025-11-08 14:08:48,2025-11-08 14:08:48
+3.254.239.146,ec2-3-254-239-146.eu-west-1.compute.amazonaws.com,Amazon AWS,,United States,37.751,-97.822,1,54,0,HTTPS,443,encrypted,0,2025-11-08 14:08:56,2025-11-08 14:08:56

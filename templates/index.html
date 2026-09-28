@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NetMap</title>
+    <meta name="color-scheme" content="dark">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%238b93ff'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='white' stroke-width='2.2'/%3E%3Cpath d='M8 16h16M16 8c-3 3-3 13 0 16M16 8c3 3 3 13 0 16' fill='none' stroke='white' stroke-width='1.6'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    {% if static_mode %}
+    <style>{{ inline_css|safe }}</style>
+    {% else %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% endif %}
+</head>
+
+<body class="{{ 'static-mode' if static_mode else '' }}">
+    <!-- Icon sprite -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c-3 3.2-3 14.8 0 18M12 3c3 3.2 3 14.8 0 18"/></symbol>
+        <symbol id="i-radar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="M12 12l6-6"/><circle cx="12" cy="12" r="1" fill="currentColor"/></symbol>
+        <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 14h6M9 17h4"/></symbol>
+        <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l2 5.5L19.5 10 14 12l-2 5.5L10 12 4.5 10 10 8.5z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></symbol>
+        <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z" fill="currentColor"/></symbol>
+        <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor"/></symbol>
+        <symbol id="i-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+        <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
+        <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
+        <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></symbol>
+        <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
+        <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></symbol>
+        <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+        <symbol id="i-expand" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol>
+        <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h9"/></symbol>
+        <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+        <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></symbol>
+        <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></symbol>
+        <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+        <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+    </svg>
+
+    <div class="app">
+        <header class="topbar">
+            <div class="brand">
+                <span class="logo"><svg><use href="#i-globe"/></svg></span>
+                <span class="brand-name">NetMap</span>
+            </div>
+
+            <div class="source" id="source">
+                <span class="source-dot"></span>
+                <span class="source-text" id="source-text">No data yet</span>
+                <span class="source-meta" id="source-meta"></span>
+            </div>
+
+            <div class="actions live-only">
+                <div class="split" id="live-split">
+                    <button id="btn-live" class="btn btn-primary"><svg><use href="#i-play"/></svg><span>Start live</span></button>
+                    <button id="btn-live-opts" class="btn btn-primary btn-caret" title="Capture settings" aria-label="Capture settings"><svg><use href="#i-chevron"/></svg></button>
+                    <div class="popover" id="live-popover">
+                        <label>Network interface<select id="iface-select"><option value="">Default</option></select></label>
+                        <label><span>Capture filter <span class="opt">(optional)</span></span>
+                            <input id="bpf-input" type="text" placeholder="e.g. not port 22" spellcheck="false"></label>
+                        <p class="hint" id="live-hint"></p>
+                    </div>
+                </div>
+                <button id="btn-open" class="btn"><svg><use href="#i-file"/></svg><span>Open file</span></button>
+                <div class="dropdown">
+                    <button class="btn" data-menu="export-menu"><svg><use href="#i-download"/></svg><span>Export</span></button>
+                    <div class="menu" id="export-menu">
+                        <a href="/api/export/html" download><b>Interactive report</b><span>Self-contained HTML, works offline</span></a>
+                        <a href="/api/export/kml" download><b>Google Maps / Earth</b><span>KML file for My Maps</span></a>
+                        <a href="/api/export/csv" download><b>Spreadsheet</b><span>CSV, one row per host</span></a>
+                        <a href="/api/export/txt" download><b>Text summary</b><span>Plain-text report</span></a>
+                        <a href="/api/export/json" download><b>Raw data</b><span>JSON</span></a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-icon" data-menu="more-menu" title="More" aria-label="More"><svg><use href="#i-more"/></svg></button>
+                    <div class="menu" id="more-menu">
+                        <div class="menu-label">Sample captures</div>
+                        <div id="samples-list"></div>
+                        <div class="menu-sep"></div>
+                        <button id="btn-reset"><b>Clear data</b><span>Start over with an empty map</span></button>
+                    </div>
+                </div>
+                <input type="file" id="file-input" accept=".pcap,.pcapng,.cap" hidden>
+            </div>
+        </header>
+        <div class="progress" id="progress"><i id="progress-bar"></i></div>
+
+        <main class="body">
+            <section class="stage">
+                <div id="map"></div>
+                <div class="map-controls">
+                    <button class="chip-btn" id="btn-fit" title="Show everything"><svg><use href="#i-expand"/></svg></button>
+                    <label class="chip-btn toggle"><input type="checkbox" id="toggle-lines" checked><span>Lines</span></label>
+                </div>
+                <div class="legend">
+                    <span><i class="sw s-encrypted"></i>Encrypted</span>
+                    <span><i class="sw s-plaintext"></i>Unencrypted</span>
+                    <span><i class="sw s-alert"></i>Alert</span>
+                    <span><i class="sw s-other"></i>Other</span>
+                    <span><i class="sw sw-home"></i>You</span>
+                </div>
+                <div class="live-rate hidden" id="live-rate"><span class="pulse-dot"></span><span id="live-rate-text"></span></div>
+
+                <div class="welcome hidden" id="welcome">
+                    <div class="welcome-card">
+                        <h1>See where your internet traffic goes</h1>
+                        <p class="lede">Every app and website on this computer talks to servers around the world. NetMap shows you which ones, where they are, and whether the connection is encrypted.</p>
+                        <div class="choices">
+                            <button class="choice" id="w-live">
+                                <span class="choice-icon"><svg><use href="#i-radar"/></svg></span>
+                                <b>Watch live</b>
+                                <span>See this computer's connections as they happen</span>
+                                <small id="w-live-hint"></small>
+                            </button>
+                            <button class="choice" id="w-open">
+                                <span class="choice-icon"><svg><use href="#i-file"/></svg></span>
+                                <b>Open a capture</b>
+                                <span>Drop a Wireshark .pcap or .pcapng file anywhere</span>
+                                <small>No password needed</small>
+                            </button>
+                            <button class="choice" id="w-sample">
+                                <span class="choice-icon"><svg><use href="#i-spark"/></svg></span>
+                                <b>Try the sample</b>
+                                <span>30 seconds of real web browsing</span>
+                                <small id="w-sample-name"></small>
+                            </button>
+                        </div>
+                        <p class="fine"><svg><use href="#i-lock"/></svg>Everything is analyzed on this computer. Nothing is uploaded anywhere.</p>
+                    </div>
+                </div>
+
+                <div class="loading hidden" id="loading">
+                    <div class="spinner"></div>
+                    <b id="loading-title">Analyzing…</b>
+                    <span id="loading-sub"></span>
+                </div>
+            </section>
+
+            <aside class="panel">
+                <nav class="tabs" id="tabs">
+                    <button data-view="overview" class="active">Overview</button>
+                    <button data-view="hosts">Hosts <span class="tab-n" id="n-hosts"></span></button>
+                    <button data-view="alerts">Alerts <span class="tab-n" id="n-alerts"></span></button>
+                    <button data-view="dns">DNS <span class="tab-n" id="n-dns"></span></button>
+                    <button data-view="activity">Activity</button>
+                </nav>
+
+                <div class="panel-body" id="panel-body">
+                    <!-- Overview -->
+                    <div class="view active" id="view-overview">
+                        <div class="kpis">
+                            <div class="kpi"><span>Data</span><b id="k-bytes">0 B</b><small id="k-bytes-sub">&nbsp;</small></div>
+                            <div class="kpi"><span>Remote hosts</span><b id="k-hosts">0</b><small id="k-hosts-sub">&nbsp;</small></div>
+                            <div class="kpi"><span>Countries</span><b id="k-countries">0</b><small id="k-countries-sub">&nbsp;</small></div>
+                            <div class="kpi"><span>Packets</span><b id="k-packets">0</b><small id="k-packets-sub">&nbsp;</small></div>
+                            <div class="kpi"><span>Your devices</span><b id="k-local">0</b><small id="k-local-sub">&nbsp;</small></div>
+                            <div class="kpi kpi-alerts" id="kpi-alerts"><span>Alerts</span><b id="k-alerts">0</b><small id="k-alerts-sub">&nbsp;</small></div>
+                        </div>
+
+                        <section class="block">
+                            <header><h3 id="bw-title">Throughput</h3><span class="muted" id="bw-peak"></span></header>
+                            <div class="chart"><canvas id="chart-bw"></canvas></div>
+                        </section>
+                        <section class="block">
+                            <header><h3>Top destinations</h3><button class="link" data-goto="hosts">All hosts</button></header>
+                            <div class="list" id="top-hosts"></div>
+                        </section>
+                        <section class="block">
+                            <header><h3>Services</h3><span class="muted">by data</span></header>
+                            <div class="bars" id="services-bars"></div>
+                        </section>
+                        <section class="block">
+                            <header><h3>Countries</h3><span class="muted">by data</span></header>
+                            <div class="bars" id="country-bars"></div>
+                        </section>
+                        <section class="block">
+                            <header><h3>Devices on your network</h3></header>
+                            <div class="list" id="local-list"></div>
+                        </section>
+                        <p class="footnote" id="footnote"></p>
+                    </div>
+
+                    <!-- Hosts -->
+                    <div class="view" id="view-hosts">
+                        <div class="toolbar">
+                            <div class="search"><svg><use href="#i-search"/></svg><input id="host-search" type="search" placeholder="Search host, IP, country, service" spellcheck="false"></div>
+                            <select id="host-sort" aria-label="Sort hosts">
+                                <option value="bytes">Most data</option>
+                                <option value="packets">Most packets</option>
+                                <option value="recent">Most recent</option>
+                                <option value="name">Name</option>
+                            </select>
+                        </div>
+                        <div class="chips" id="status-chips">
+                            <button data-status="" class="active">All</button>
+                            <button data-status="alert"><i class="sw s-alert"></i>Alerts</button>
+                            <button data-status="plaintext"><i class="sw s-plaintext"></i>Unencrypted</button>
+                            <button data-status="encrypted"><i class="sw s-encrypted"></i>Encrypted</button>
+                            <button data-status="other"><i class="sw s-other"></i>Other</button>
+                        </div>
+                        <div class="list" id="host-list"></div>
+                    </div>
+
+                    <!-- Host detail -->
+                    <div class="view" id="view-host"></div>
+
+                    <!-- Alerts -->
+                    <div class="view" id="view-alerts">
+                        <div id="alert-list"></div>
+                    </div>
+
+                    <!-- DNS -->
+                    <div class="view" id="view-dns">
+                        <div class="toolbar"><div class="search"><svg><use href="#i-search"/></svg><input id="dns-search" type="search" placeholder="Search domains" spellcheck="false"></div></div>
+                        <p class="view-intro">Names this computer looked up. Many are ads, trackers and analytics that load in the background.</p>
+                        <div class="list" id="dns-list"></div>
+                    </div>
+
+                    <!-- Activity -->
+                    <div class="view" id="view-activity">
+                        <p class="view-intro">New connections, most recent first.</p>
+                        <div class="list" id="activity-list"></div>
+                    </div>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <div id="toasts" aria-live="polite"></div>
+    <div id="drop-overlay"><div><svg><use href="#i-file"/></svg><b>Drop to analyze</b><span>.pcap · .pcapng · .cap</span></div></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    {% if static_mode %}
+    <script>window.STATIC_SNAPSHOT = {{ snapshot_json|safe }};</script>
+    <script>{{ inline_js|safe }}</script>
+    {% else %}
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.7.5/dist/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    {% endif %}
+</body>
+
+</html>

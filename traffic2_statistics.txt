@@ -1,56 +1,83 @@
-
-============================================================
+================================================================
 NETWORK TRAFFIC ANALYSIS REPORT
-============================================================
+================================================================
 
-SOURCE INFORMATION:
-  Your IP: 182.66.218.121
-  Location: None, India
+Source:            traffic2.pcap
+Your public IP:    182.66.218.121  (India)
+Capture window:    2025-11-08 14:08:48 -> 2025-11-08 14:09:21  (33s)
 
-OVERVIEW:
-  Total Packets Analyzed: 16,755
-  Unique Source IPs: 41
-  Unique Destination IPs: 45
-  Countries Detected: 8
-  Processing Time: 17.42 seconds
+OVERVIEW
+  Total packets:         16,755
+  Total data:            13.6 MB
+  Internet data:         13.5 MB
+  LAN-only packets:      577
+  Non-IP packets:        0
+  Local devices:         9
+  Remote hosts:          77 (40 geolocated)
+  Countries:             8
+  Connections (flows):   87
+  DNS names queried:     75
+  Security alerts:       0
 
-PROTOCOL DISTRIBUTION:
-  TCP: 5,082 packets
-  UDP: 754 packets
-  ICMP: 34 packets
+PROTOCOLS
+  UDP          10,839 packets
+  TCP           5,864 packets
+  ICMP             34 packets
+  ICMPv6           18 packets
 
-TOP 10 DESTINATION IPs:
-  172.20.10.2: 3677 connections
-  184.51.195.235: 527 connections
-  3.254.239.161: 392 connections
-  172.20.10.1: 274 connections
-  18.67.161.8: 136 connections
-  103.243.32.90: 92 connections
-  44.215.129.188: 79 connections
-  18.161.242.236: 63 connections
-  63.34.150.9: 49 connections
-  54.190.62.8: 42 connections
+TOP SERVICES
+  QUIC                   9.0 MB    10,283 packets
+  HTTPS                  4.5 MB     5,856 packets
+  ICMPv6                 3.9 KB        13 packets
+  ICMP                   1.5 KB        21 packets
+  Google Push             320 B         4 packets
+  NTP                      90 B         1 packets
 
-TOP SERVICES/PORTS:
-  Port 443 (HTTPS): 1893 connections
-  Port 54238 (Unknown): 1529 connections
-  Port 54234 (Unknown): 374 connections
-  Port 53 (DNS): 261 connections
-  Port 54188 (Unknown): 259 connections
-  Port 54232 (Unknown): 193 connections
-  Port 54219 (Unknown): 105 connections
-  Port 54194 (Unknown): 44 connections
-  Port 54160 (Unknown): 43 connections
-  Port 51032 (Unknown): 30 connections
+TOP REMOTE HOSTS (by data)
+  2a04:4e42:59::272     5.2 MB  images-na.ssl-images-amazon.com         unknown
+  184.51.195.235       2.6 MB  rukminim2.flixcart.com                  United States
+  2404:6800:4007:808::2004     1.5 MB  pnmaaa-aq-in-x04.1e100.net              unknown
+  2404:6800:4007:82f::2003   574.1 KB  www.gstatic.com                         unknown
+  2600:140f:5e00:486::3bda   480.1 KB  www.amazon.in                           unknown
+  3.254.239.161      422.6 KB  unagi.amazon.in                         United States
+  18.67.161.8        379.6 KB  player.live-video.net                   Cambridge, United States
+  103.243.32.90      279.4 KB  www.flipkart.com                        India
+  2404:6800:4007:835::200e   259.5 KB  calendar.google.com                     unknown
+  2404:6800:4007:83b::200e   249.6 KB  play.google.com                         unknown
+  2404:6800:4007:839::200a   149.4 KB  waa-pa.clients6.google.com              unknown
+  2001:df2:e500:ed1a::1   142.1 KB  en.wikipedia.org                        unknown
+  2404:6800:4007:821::200e   130.1 KB  www.youtube.com                         unknown
+  2404:6800:4007:834::200e    97.9 KB  encrypted-tbn0.gstatic.com              unknown
+  18.161.242.236      83.1 KB  data.amazon.in                          United States
 
-COUNTRIES DETECTED:
-  - Australia
-  - Belgium
-  - China
-  - Denmark
-  - India
-  - Ireland
-  - United Kingdom
-  - United States
+COUNTRIES
+  United States              30 hosts      3.9 MB
+  India                       2 hosts    279.8 KB
+  Ireland                     3 hosts     53.6 KB
+  United Kingdom              1 hosts     25.1 KB
+  Australia                   1 hosts     11.8 KB
+  Denmark                     1 hosts     11.3 KB
+  China                       1 hosts      9.8 KB
+  Belgium                     1 hosts      2.8 KB
 
-============================================================
+TOP DNS QUERIES
+      8  bs.serving-sys.com
+      8  tags.bluekai.com
+      8  amazon.partners.tremorhub.com
+      6  www.gstatic.com
+      6  ogads-pa.clients6.google.com
+      6  encrypted-tbn0.gstatic.com
+      6  www.youtube.com
+      6  play.google.com
+      6  www.amazon.in
+      6  images-eu.ssl-images-amazon.com
+      6  m.media-amazon.com
+      6  unagi-eu.amazon.com
+      6  ssl.gstatic.com
+      6  content-autofill.googleapis.com
+      3  spclient.wg.spotify.com
+
+SECURITY ALERTS
+  none
+
+================================================================
